@@ -73,7 +73,7 @@ This lab uses an example from the Xilinx® SDAccel™ Example GitHub repository,
   12. Click **OK** to close the window and go back to the Templates window.  
       The Templates window is now populated with the SDAccel Github examples.  
 
-      ![](./images/github_example_new.png)  
+      ![](./images/github_example_new.PNG)  
 
   13. Using the Find window, type hello, and locate the Helloworld_C from the Host Examples.   
 
