@@ -39,12 +39,12 @@ This lab uses an example from the Xilinx® SDAccel™ Example GitHub repository,
 
      ![](./images/project_name.PNG)  
 
-  6. Specify the name and location for your project. For this project, type `vadd` into the Project Name field and select **Use default location**.
+  6. Specify the name and location for your project. For this project, type `helloworld` into the Project Name field and select **Use default location**.
      The Hardware Platform dialog box opens.  
 
-     ![](./images/hardware_platform_dialog.PNG)
+     ![](./images/hardware_platform_dialog_new.PNG)
 
-  7. Select the `xilinx_kcu1500_dynamic_5_0` platform and click **Next**.  
+  7. Select the `xilinx_u200_xdma_201820_2` platform and click **Next**.  
      The selection of the hardware platform defines the project as an SDAccel project or an SDSoC project. In this case you have selected an SDAccel acceleration platform, so the project will be an SDAccel project.
 
      The System Configuration window opens. This window is where you define what type of system and runtime to use.  
@@ -54,7 +54,7 @@ This lab uses an example from the Xilinx® SDAccel™ Example GitHub repository,
   8. For this lab, use the system configuration defaults, which are set to Linux and OpenCL.   
 
   9. Click **Next**.  
-     The Templates window opens, showing a list of possible templates that you can use to get started in building an SDAccel project. Unless you have already downloaded other SDx examples, you should only see Empty Application and Vector Addition. In this lab, you will be using the Vector Addition from the Github repository. To do this you need to download the examples.  
+     The Templates window opens, showing a list of possible templates that you can use to get started in building an SDAccel project. Unless you have already downloaded other SDx examples, you should only see Empty Application and Vector Addition. In this lab, you will be using the Helloworld example from the Github repository. To do this you need to download the examples.  
 
      ![](./images/faq1517357172427.png)  
 
@@ -73,12 +73,12 @@ This lab uses an example from the Xilinx® SDAccel™ Example GitHub repository,
   12. Click **OK** to close the window and go back to the Templates window.  
       The Templates window is now populated with the SDAccel Github examples.  
 
-      ![](./images/gmr1517357172462.png)  
+      ![](./images/github_example_new.png)  
 
-  13. Using the Find window, type Vector, and locate the Vector Addition from the Miscellaneous Examples.   
+  13. Using the Find window, type hello, and locate the Helloworld_C from the Host Examples.   
 
   14. Click **Finish**.  
-      The Vector Addition project is created and opened in the SDAccel environment, given the name that you specified for the project. The environment should appear similar to the following figure.
+      The Hello world project is created and opened in the SDAccel environment, given the name that you specified for the project. The environment should appear similar to the following figure.
 
       [](./images/vector_add_project.png)
 
