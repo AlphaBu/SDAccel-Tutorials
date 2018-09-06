@@ -158,28 +158,28 @@ This step covers running Hardware Emulation feature, as well as looking at the b
   2. In the Assistant tab, open System Estimate under the Emulation-HW configuration.
      This text report provides information related to kernel information, timing about the design, clock cycles, and area used in the device.
 
-     ![](./images/dzr1517357172472.png)  
+     ![](./images/system_estimate_hw.png)  
 
   3. In the Reports tab, open Profile Summary. This summary report provides detailed information related to kernel operation, data transfers, and OpenCL™ API calls, as well as profiling information related to the resource usage, and data transfer to/from the kernel/host.
      >**:pushpin: NOTE:**  The simulation models used in HW Emulation are approximate. Profile numbers shown are just an estimate and might vary from results obtained in real hardware.  
 
-     ![](./images/profile_summary_report.png)
+     ![](./images/profile_summary_report_hw.png)
 
   4. Next to the console tab, there is a tab labeled Guidance. This is where unmet checks provide some information on how to optimize the kernel.
 
-     ![](./images/guidance_view.PNG)  
+     ![](./images/guidance_view_hw.png)  
 
      >**:pushpin: NOTE:**  To see other performance optimization techniques and methodologies, refer to the  SDAccel Profiling and Optimization Guide ([UG1207](https://www.xilinx.com/cgi-bin/docs/rdoc?v=2018.2;d=ug1207-sdaccel-optimization-guide.pdf)).  
 
   5. Open the Application Timeline report.  
      This report shows the estimated time it takes for the host and kernel to complete the task and provides finer grained information on where bottlenecks can be. In this example, it is iterated twice and this timeline shows the kernel is run twice. Adding a marker, zooming, and expanding signals can help in identifying bottlenecks.  
 
-     ![](./images/pwe1517357172419.png)  
+     ![](./images/timeline_hw.png)  
 
   6. Open the HLS Report by expanding the Emulation-HW tab and then expanding the relevant kernel tab.
      This report provides detailed information provided by Vivado® HLS on the kernel transformation and synthesis. The tabs at the bottom provide more information on where most of the time is spent in the kernel and other performance related data. Some performance data might include latency and clock period.  
 
-     ![](./images/ivm1517374817463.png)  
+     ![](./images/hls_hw.png)  
 </details>
 
 <details>
