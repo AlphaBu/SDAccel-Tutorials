@@ -75,12 +75,12 @@ This lab uses an example from the Xilinx® SDAccel™ Example GitHub repository,
 
       ![](./images/github_example_new.PNG)  
 
-  13. Using the Find window, type hello, and locate the Helloworld_C from the Host Examples.   
+  13. Using the Find window, type hello, and locate the Helloworld (HLS C/C++ Kernel) from the Host Examples.   
 
   14. Click **Finish**.  
       The Hello world project is created and opened in the SDAccel environment, given the name that you specified for the project. The environment should appear similar to the following figure.
 
-      [](./images/vector_add_project.png)
+      ![](./images/helloworld_project.png)
 
       The SDAccel Environment includes the Eclipse-based SDx IDE which you have been working in. As shown in the figure, the default perspective has an arrangement of the Project Explorer view, Project Editor window, and the Outline view across the top, and the Assistant view, the Console view, and Target Connections view across the bottom. Refer to the SDAccel Environment User Guide ([UG1023](https://www.xilinx.com/cgi-bin/docs/rdoc?v=2018.2;d=ug1023-sdaccel-environment-user-guide.pdf)) for more information on the features of the SDx IDE.
 
@@ -93,7 +93,7 @@ This step shows you how to run software emulation for a design, by setting Run C
 
   1. To run CPU Emulation, go to Application Project Settings and ensure that Active build configuration is set to Emulation-SW.  
 
-     ![](./images/project_settings.png)  
+     ![](./images/project_settings_hw.png)  
 
   2. From the Github example, an accelerator already exists for the design. To add a hardware function to a design that does not have one, start by clicking on the Add Hardware Function button: ![](./images/qpg1517374817485.png). This analyzes the C/C++ code and determines functions that can be used for acceleration.  
 
@@ -112,31 +112,31 @@ This step shows you how to run software emulation for a design, by setting Run C
 
   8. After the emulation run is complete, you can review the Profile Summary and Application Timeline reports for details on further optimizations. In the Assistant window, double-click Profile Summary as shown in the figure.
 
-     ![](./images/assistant_reports.PNG)
+     ![](./images/assistant_reports_hw.PNG)
 
      Here, you can view operations, execution time, bandwidth, and other useful data that you can use to optimize the design. Note that your summary numbers may vary from the following figure.  
 
-     ![](./images/qrs1517357172440.png)  
+     ![](./images/profile_summary_hw.png)  
 
   9. To view the Application Timeline report, in the Assistant window, double-click Application Timeline. This shows a breakdown of the host code and the kernel code, and execution time for each. To zoom into a specific area, click and drag the mouse to the right.
 
-     ![](./images/cwn1517357172498.png)  
+     ![](./images/cwn1517357172498_hw.png)  
 
   10. The Profile Summary and Application Timeline present data on how the host code and kernel communicate and process kernel information. Using the Debug feature can help you to step through host-kernel processing to pinpoint issues. In the Project Explorer window double-click **host.cpp** (located in the `Explorer > src` directory) to open the file in the editor.  
 
-  11. To run in Debug, you need to set a breakpoint. Setting breakpoints at key points in the execution helps identify problems. To pause the host code right before kernel debug begins, right-click on line 70 in the blue area (see figure below) on the `outBufVec.push_back(buffer_C)` and select Toggle Breakpoint.  
+  11. To run in Debug, you need to set a breakpoint. Setting breakpoints at key points in the execution helps identify problems. To pause the host code right before kernel debug begins, right-click on (line 70 NEED_TO_BE_CHANGED) in the blue area (see figure below) on the (`outBufVec.push_back(buffer_C) NEED_TO_BE_CHANGED`) and select Toggle Breakpoint.  
 
-      ![](./images/lpy1517374817498.png)  
+      ![](./images/lpy1517374817498_hw.png)  
 
   12. To run Debug, click the Debug icon: ![](./images/cwo1517357172495.png). A dialog box opens up asking you to switch to that perspective. Click Yes.  
 
   13. Using Eclipse debugging, you can examine the host and kernel code in more detail. All the controls for step-by-step debugging are in the Run menu or on the main toolbar menu.
 
-      ![](./images/20182_debug.png)  
+      ![](./images/20182_debug_hw.png)  
 
   14. By default, the debugger inserts an automatic breakpoint at the first line of `main`. On the Debugger tab of the Runs Configuration dialog, there is an option to stop on the `main` function which is enabled by default as shown in the figure. This is helpful in case of a problematic function in need of more thorough debugging. Press F8 to resume to the next breakpoint or from the Run menu select Resume.  
 
-      ![](./images/debug_configuration.PNG)  
+      ![](./images/debug_configuration_hw.PNG)  
 
   15. After resuming debugging, SDx launches another gdb instance for the kernel code, and it also has a breakpoint at the beginning of the function. This allows for detailed analysis of the kernel and how the data looks being read into the function, and written out to memory. Once the kernel execution is done in gdb, that instance is terminated and you return to the main debugging thread. Press F8 to continue.  
       >**:pushpin: NOTE:**  The console view still shows the kernel debug outputs. Click the icon ![](./images/gqm1517357172417.png) to go back to the vadd.exe console and see the output from the host code.  
