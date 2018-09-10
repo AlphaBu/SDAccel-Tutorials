@@ -124,7 +124,7 @@ This step shows you how to run software emulation for a design, by setting Run C
 
   10. The Profile Summary and Application Timeline present data on how the host code and kernel communicate and process kernel information. Using the Debug feature can help you to step through host-kernel processing to pinpoint issues. In the Project Explorer window double-click **host.cpp** (located in the `Explorer > src` directory) to open the file in the editor.  
 
-  11. To run in Debug, you need to set a breakpoint. Setting breakpoints at key points in the execution helps identify problems. To pause the host code right before kernel debug begins, right-click on (line 70 NEED_TO_BE_CHANGED) in the blue area (see figure below) on the (`outBufVec.push_back(buffer_C) NEED_TO_BE_CHANGED`) and select Toggle Breakpoint.  
+  11. To run in Debug, you need to set a breakpoint. Setting breakpoints at key points in the execution helps identify problems. To pause the host code right before kernel debug begins, right-click on (line 89) in the blue area (see figure below) on the (`OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_in1, buffer_in2},0/* 0 means from host*/));`) and select Toggle Breakpoint.  
 
       ![](./images/debug_breakpoint_hw.PNG)  
 
