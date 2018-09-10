@@ -132,7 +132,7 @@ This step shows you how to run software emulation for a design, by setting Run C
 
   13. Using Eclipse debugging, you can examine the host and kernel code in more detail. All the controls for step-by-step debugging are in the Run menu or on the main toolbar menu.
 
-      ![](./images/debug_hw.PNG)  
+      ![](./images/debug_hw.png)  
 
   14. By default, the debugger inserts an automatic breakpoint at the first line of `main`. On the Debugger tab of the Runs Configuration dialog, there is an option to stop on the `main` function which is enabled by default as shown in the figure. This is helpful in case of a problematic function in need of more thorough debugging. Press F8 to resume to the next breakpoint or from the Run menu select Resume.  
 
