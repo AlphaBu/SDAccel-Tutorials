@@ -120,7 +120,7 @@ This step shows you how to run software emulation for a design, by setting Run C
 
   9. To view the Application Timeline report, in the Assistant window, double-click Application Timeline. This shows a breakdown of the host code and the kernel code, and execution time for each. To zoom into a specific area, click and drag the mouse to the right.
 
-     ![](./images/cwn1517357172498_hw.png)  
+     ![](./images/application_timeline_hw.png)  
 
   10. The Profile Summary and Application Timeline present data on how the host code and kernel communicate and process kernel information. Using the Debug feature can help you to step through host-kernel processing to pinpoint issues. In the Project Explorer window double-click **host.cpp** (located in the `Explorer > src` directory) to open the file in the editor.  
 
