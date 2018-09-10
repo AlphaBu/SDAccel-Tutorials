@@ -80,7 +80,7 @@ This lab uses an example from the Xilinx® SDAccel™ Example GitHub repository,
   14. Click **Finish**.  
       The Hello world project is created and opened in the SDAccel environment, given the name that you specified for the project. The environment should appear similar to the following figure.
 
-      ![](./images/helloworld_project.png)
+      ![](./images/helloworld_project.PNG)
 
       The SDAccel Environment includes the Eclipse-based SDx IDE which you have been working in. As shown in the figure, the default perspective has an arrangement of the Project Explorer view, Project Editor window, and the Outline view across the top, and the Assistant view, the Console view, and Target Connections view across the bottom. Refer to the SDAccel Environment User Guide ([UG1023](https://www.xilinx.com/cgi-bin/docs/rdoc?v=2018.2;d=ug1023-sdaccel-environment-user-guide.pdf)) for more information on the features of the SDx IDE.
 
