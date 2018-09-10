@@ -120,19 +120,19 @@ This step shows you how to run software emulation for a design, by setting Run C
 
   9. To view the Application Timeline report, in the Assistant window, double-click Application Timeline. This shows a breakdown of the host code and the kernel code, and execution time for each. To zoom into a specific area, click and drag the mouse to the right.
 
-     ![](./images/application_timeline_hw.png)  
+     ![](./images/application_timeline.png)  
 
   10. The Profile Summary and Application Timeline present data on how the host code and kernel communicate and process kernel information. Using the Debug feature can help you to step through host-kernel processing to pinpoint issues. In the Project Explorer window double-click **host.cpp** (located in the `Explorer > src` directory) to open the file in the editor.  
 
   11. To run in Debug, you need to set a breakpoint. Setting breakpoints at key points in the execution helps identify problems. To pause the host code right before kernel debug begins, right-click on (line 70 NEED_TO_BE_CHANGED) in the blue area (see figure below) on the (`outBufVec.push_back(buffer_C) NEED_TO_BE_CHANGED`) and select Toggle Breakpoint.  
 
-      ![](./images/debug_breakpoint_hw.png)  
+      ![](./images/debug_breakpoint_hw.PNG)  
 
   12. To run Debug, click the Debug icon: ![](./images/cwo1517357172495.png). A dialog box opens up asking you to switch to that perspective. Click Yes.  
 
   13. Using Eclipse debugging, you can examine the host and kernel code in more detail. All the controls for step-by-step debugging are in the Run menu or on the main toolbar menu.
 
-      ![](./images/debug_hw.png)  
+      ![](./images/debug_hw.PNG)  
 
   14. By default, the debugger inserts an automatic breakpoint at the first line of `main`. On the Debugger tab of the Runs Configuration dialog, there is an option to stop on the `main` function which is enabled by default as shown in the figure. This is helpful in case of a problematic function in need of more thorough debugging. Press F8 to resume to the next breakpoint or from the Run menu select Resume.  
 
