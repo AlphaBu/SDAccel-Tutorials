@@ -37,12 +37,12 @@ In this step, you will set up SDx™ to run in command line, and clone the Githu
 
      In this directory, run the `ls` command and view the files. You should see the following contents:
      ````
-     [sdaccel@localhost vadd ]$ ls
+     [sdaccel@localhost helloworld_c ]$ ls
      Makefile    README.md    description.json src utils.mk
      ````
      If you run the `ls` on the `src` directory, you should see the following:
      ````
-     [sdaccel@localhost vadd ]$ ls src  
+     [sdaccel@localhost helloworld_c ]$ ls src  
      host.cpp    vadd.cpp  
      ````
 </details>
@@ -123,7 +123,7 @@ Now that you understand parts of the makefile construction, it is time to compil
      * host (host executable)  
      * `xclbin/vadd.sw_emu.xilinx_u200_xdma_201820_2.xclbin` (binary container)  
      * A system estimate report
-     * emconfig.json
+     * `emconfig.json`
 
      To double check that these files were generated, run an `ls` command in the directory and you should get the following:  
      ```
