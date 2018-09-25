@@ -33,17 +33,17 @@ In this step, you will set up SDx™ to run in command line, and clone the Githu
      >**:pushpin: NOTE:**  This Github repository totals around 400MB in size. Make sure you have sufficient space on a local or remote disk to ensure that it can be completely downloaded.  
 
   3. Once the download is complete, navigate to the `vadd` directory in the SDAccel example using the following command:  
-     ``cd <workspace>/examples/getting_started/misc/vadd``
+     ``cd <workspace>/examples/getting_started/host/helloworld_c``
 
      In this directory, run the `ls` command and view the files. You should see the following contents:
      ````
      [sdaccel@localhost vadd ]$ ls
-     Makefile    README.md    description.json src
+     Makefile    README.md    description.json src utils.mk
      ````
      If you run the `ls` on the `src` directory, you should see the following:
      ````
      [sdaccel@localhost vadd ]$ ls src  
-     host.cpp    krnl_vadd.cl    vadd.h  
+     host.cpp    vadd.cpp  
      ````
 </details>
 
@@ -57,29 +57,41 @@ In this step, you will set up SDx™ to run in command line, and clone the Githu
 
   3. The first few lines contain `include` statements for other generic makefiles that are used by all the examples.  
      ````
-     COMMON_REPO:=../../../  
-     include $(COMMON_REPO)/utility/boards.mk  
-     include $(COMMON_REPO)/libs/xcl2/xcl2.mk  
-     include $(COMMON_REPO)/libs/opencl/opencl.mk  
+     COMMON_REPO = ../../../
+     ABS_COMMON_REPO = $(shell readlink -f $(COMMON_REPO))
+
+     include ./utils.mk
+
      ````
   4. Open the `../../../utility/boards.mk` file. This makefile contains the flags and command line compiler info needed to build the host and source code.   
      ````
      # By Default report is set to none, no report will be generated  
      # 'estimate' for estimate report generation  
      # 'system' for system report generation  
-     REPORT:=none  
+     REPORT:=none
+     PROFILE ?= no
+     DEBUG ?=no
 
      # Default C++ Compiler Flags and xocc compiler flags  
-     CXXFLAGS:=-Wall -O0 -g  
+     CXXFLAGS:=-Wall -O0 -g -std=c++14
      CLFLAGS:= --xp "param:compiler.preserveHlsOutput=1" --xp "param:compiler.generateExtraRunData=true" -s  
 
      ifneq ($(REPORT),none)  
      CLFLAGS += --report $(REPORT)  
      endif
-     ````
-     `REPORT` is an input flag (parameter) for the `make` command in the terminal. Notice that the `CLFLAGS` is building a long list of `xocc` command line flags to be used.  
 
-  5. Scroll down to line 54 and you will see:  
+     ifeq ($(PROFILE),yes)
+     CLFLAGS += --profile_kernel data:all:all:all
+     endif
+
+     ifeq ($(DEBUG),yes)
+     CLFLAGS += --dk protocol:all:all:all
+     endif
+
+     ````
+     `REPORT`, `PROFILE` and `DEBUG` are input flags (parameter) for the `make` command in the terminal. Notice that the `CLFLAGS` is building a long list of `xocc` command line flags to be used.  
+
+  5. Scroll down to line 52 and you will see:  
      ````
         # By default build for hardware can be set to  
         #   hw_emu for hardware emulation  
@@ -104,33 +116,33 @@ In this step, you will set up SDx™ to run in command line, and clone the Githu
 Now that you understand parts of the makefile construction, it is time to compile the code to run Software Emulation.  
 
   1. To compile the application for Software Emulation, run the following command:  
-     `make all REPORT=estimate TARGETS=sw_emu DEVICES=xilinx_kcu1500_dynamic_5_0`  
+     `make all REPORT=estimate TARGETS=sw_emu DEVICES=xilinx_u200_xdma_201820_2`  
 
-     The three files that are generated are:  
+     The four files that are generated are:  
 
-     * vadd (host executable)  
-     * `xclbin/krnl_vadd.sw_emu.xilinx_kcu1500_dynamic.xclbin` (binary container)  
+     * host (host executable)  
+     * `xclbin/vadd.sw_emu.xilinx_u200_xdma_201820_2.xclbin` (binary container)  
      * A system estimate report
+     * emconfig.json
 
      To double check that these files were generated, run an `ls` command in the directory and you should get the following:  
      ```
-      [sdaccel@localhost vadd]$ ls   
+      [sdaccel@localhost helloworld_c]$ ls   
       description.json
       Makefile
       README.md
       src  
-      vadd  
+      host  
       _x  this directory contains the logs and reports from the build process.
       xclbin  
-      [sdaccel@localhost vadd ]$ ls xclbin/  
-      krnl_vadd.sw_emu.xilinx_kcu1500_dynamic.xclbin  
-      krnl_vadd.sw_emu.xilinx_kcu1500_dynamic.xo
+      [sdaccel@localhost helloworld_c ]$ ls xclbin/  
+      vadd.sw_emu.xilinx_u200_xdma_201820_2.xclbin  
+      vadd.sw_emu.xilinx_u200_xdma_201820_2.xo
+      xilinx_u200_xdma_201820_2 this folder contains the emconfig.json file
      ```
 
   2. To run the application in emulation, run the following command:  
-     `emconfigutil --platform xilinx_kcu1500_dynamic_5_0 --nd 1`
-     The `emconfigutil` tool generates a `emconfig.json` file, which contains the information about the target device. However, from the Github repository, the makefile is how you will generate it. Run this command:
-     `make check PROFILE=yes TARGETS=sw_emu DEVICES=xilinx_kcu1500_dynamic_5_0`  
+     `make check PROFILE=yes TARGETS=sw_emu DEVICES=xilinx_u200_xdma_201820_2`  
 
      >**:pushpin: NOTE:**  Make sure that the `DEVICES` specified above is the same as what was used for compilation in Step 1.  
 
@@ -138,43 +150,23 @@ Now that you understand parts of the makefile construction, it is time to compil
 
   3. If the application runs successfully, the following messages appear in the terminal:  
       ```
-      [sdaccel@localhost vadd]$ make check TARGETS=sw_emu DEVICES=xilinx_kcu1500_dynamic_5_0  
-      <install location>/SDx/2017.4/bin/emconfigutil --platform xilinx_kcu1500_dynamic_5_0 --nd 1  
+      [sdaccel@localhost helloworld_c]$ make check TARGETS=sw_emu DEVICES=xilinx_u200_xdma_201820_2
+      cp -rf ./xclbin/xilinx_u200_xdma_201820_2/emconfig.json .
+      XCL_EMULATION_MODE=sw_emu ./host
+      Found Platform
+      Platform Name: Xilinx
+      XCLBIN File Name: vadd
+      INFO: Importing xclbin/vadd.sw_emu.xilinx_u200_xdma_201820_2.xclbin
+      Loading: 'xclbin/vadd.sw_emu.xilinx_u200_xdma_201820_2.xclbin'
+      TEST PASSED
+      sdx_analyze profile -i sdaccel_profile_summary.csv -f html
+      INFO: Tool Version : 2018.2
+      INFO: Done writing sdaccel_profile_summary.html
 
-      ****** configutil v2017.4 (64-bit)  
-        **** SW Build 2064444 on Sun Nov 19 18:07:27 MST 2017  
-          ** Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.  
-
-      INFO: [ConfigUtil 60-895]    Target platform: <install location>/SDx/2017.4/platforms/xilinx_kcu1500_dynamic_5_0/xilinx_kcu1500_dynamic_5_0.xpfm  
-      emulation configuration file `emconfig.json` is created in current working directory   
-
-      ...  
-      platform Name: Intel(R) OpenCL  
-      Vendor Name : Xilinx  
-      platform Name: Xilinx  
-      Vendor Name : Xilinx  
-      Found Platform  
-      XCLBIN File Name: krnl_vadd  
-      INFO: Importing xclbin/krnl_vadd.sw_emu.xilinx_kcu1500_dynamic.xclbin  
-      Loading: 'xclbin/krnl_vadd.sw_emu.xilinx_kcu1500_dynamic.xclbin'  
-      Result Match: i = 0 CPU result = 0 Krnl Result = 0  
-      Result Match: i = 1 CPU result = 3 Krnl Result = 3  
-      Result Match: i = 2 CPU result = 6 Krnl Result = 6  
-      Result Match: i = 3 CPU result = 9 Krnl Result = 9  
-      Result Match: i = 4 CPU result = 12 Krnl Result = 12  
-      Result Match: i = 5 CPU result = 15 Krnl Result = 15  
-      ...  
-      Result Match: i = 1018 CPU result = 3054 Krnl Result = 3054  
-      Result Match: i = 1019 CPU result = 3057 Krnl Result = 3057  
-      Result Match: i = 1020 CPU result = 3060 Krnl Result = 3060  
-      Result Match: i = 1021 CPU result = 3063 Krnl Result = 3063  
-      Result Match: i = 1022 CPU result = 3066 Krnl Result = 3066  
-      Result Match: i = 1023 CPU result = 3069 Krnl Result = 3069  
-      TEST PASSED  
-     ```
+      ```
 
   4. If you want to generate additional reports you will need to either set environment variables or create a file called `sdaccel.ini` with appropriate information and permissions.
-     In this tutorial, you will create the `sdaccel.ini` file in the `vadd` directory, and add the following contents:  
+     In this tutorial, you will create the `sdaccel.ini` file in the `helloworld_c` directory, and add the following contents:  
      ```
       [Debug]  
       timeline_trace = true  
@@ -182,7 +174,7 @@ Now that you understand parts of the makefile construction, it is time to compil
      ```
 
   5. Again, run the command:  
-     `make check PROFILE=yes TARGETS=sw_emu DEVICES=xilinx_kcu1500_dynamic_5_0`  
+     `make check PROFILE=yes TARGETS=sw_emu DEVICES=xilinx_u200_xdma_201820_2`  
      After the application completes, there is an additional timeline trace file called sdaccel_timeline_trace.csv. To view this trace report in the GUI, convert the CSV file into a WDB file using this command:  
      `sdx_analyze trace sdaccel_timeline_trace.csv`  
 
@@ -192,63 +184,51 @@ Now that you understand parts of the makefile construction, it is time to compil
      This generates an `sdaccel_profile_summary.xprf` file. To view this report, open the SDx IDE, select **File > Open File**, and click the file from the menu. The report is shown below.  
      >**:pushpin: NOTE:** For viewing these reports, you do not need to use the workspace you previously used in Lab 1. You can use this command to create a workspace locally for viewing these reports: `sdx -workspace ./lab2`. You may also need to close the Welcome Window to view the report.  
 
-     ![](./images/xci1517374817422.png)  
+     ![](./images/lab2-sw_emu_profile.PNG)  
 
      >**:pushpin: NOTE:** Software Emulation does not provide all the profiling information (data transfer between kernel and global memory). This information is available in Hardware Emulation and System.  
 
   7. The System Estimate report (`system_estimate.xtxt`) is also generated. This is from the `--report` switch used when compiling using the `xocc` command.  
-     ![](./images/kkq1517374817434.png)  
+     ![](./images/lab2_sw_emu_sysestimate.PNG)  
 
   8. As you did earlier, launch the SDx IDE.
 
   9. Select **File > Open File** to locate the `sdaccel_timeline_trace.wdb` file. This opens the report shown in the following figure:  
-     ![](./images/rth1517374817491.png)  
+     ![](./images/lab2-sw_emu_timeline.PNG)  
 </details>
 
 <details>
 <summary><strong>Step 4: Running Hardware Emulation</strong></summary>
 
   1. Now that Software Emulation is complete, you can run Hardware Emulation. To do this without changing the makefile, run the following command:  
-     `make all REPORT=estimate TARGETS=hw_emu DEVICES=xilinx_kcu1500_dynamic_5_0`
+     `make all REPORT=estimate TARGETS=hw_emu DEVICES=xilinx_u200_xdma_201820_2`
      When you define the `TARGETS` this way, it passes the value and overwrites the default that was set in the makefile.  
      >**:pushpin: NOTE:** Hardware Emulation takes longer to compile than the Software Emulation.  
      Next, you can re-run the compiled host application. You do not need to regenerate `emconfig.json` because the device information has not changed. However, the emulation needs to be set for Hardware Emulation.  
 
   2. Re-run the host application with the following command:  
-     `make check TARGETS=hw_emu DEVICES=xilinx_kcu1500_dynamic_5_0`  
+     `make check TARGETS=hw_emu DEVICES=xilinx_u200_xdma_201820_2`  
      >**:pushpin: NOTE:** The makefile sets the enviornment variable to `hw_emu`.  
 
   3. The output should be similar to the Software Emulation with the following output.  
      ```
-      [sdaccel@localhost vadd]$ make check TARGETS=hw_emu DEVICES=xilinx_kcu1500_dynamic_5_0  
-      /<install location>/SDx/<version>/bin/emconfigutil --platform xilinx_kcu1500_dynamic_5_0 --nd 1  
-      ...  
-      INFO: [ConfigUtil 60-895]    Target platform: <install location>/SDx/<version>/platforms/xilinx_kcu1500_dynamic_5_0/xilinx_kcu1500_dynamic_5_0.xpfm  
-      emulation configuration file `emconfig.json` is created in current working directory   
-      ...  
-      platform Name: Intel(R) OpenCL  
-      Vendor Name : Xilinx  
-      platform Name: Xilinx  
-      Vendor Name : Xilinx  
-      Found Platform  
-      XCLBIN File Name: krnl_vadd  
-      INFO: Importing xclbin/krnl_vadd.sw_emu.xilinx_kcu1500_dynamic.xclbin  
-      Loading: 'xclbin/krnl_vadd.sw_emu.xilinx_kcu1500_dynamic.xclbin'  
-      Result Match: i = 0 CPU result = 0 Krnl Result = 0  
-      Result Match: i = 1 CPU result = 3 Krnl Result = 3  
-      Result Match: i = 2 CPU result = 6 Krnl Result = 6  
-      Result Match: i = 3 CPU result = 9 Krnl Result = 9  
-      Result Match: i = 4 CPU result = 12 Krnl Result = 12  
-      Result Match: i = 5 CPU result = 15 Krnl Result = 15  
-      ...  
-      Result Match: i = 1018 CPU result = 3054 Krnl Result = 3054  
-      Result Match: i = 1019 CPU result = 3057 Krnl Result = 3057  
-      Result Match: i = 1020 CPU result = 3060 Krnl Result = 3060  
-      Result Match: i = 1021 CPU result = 3063 Krnl Result = 3063  
-      Result Match: i = 1022 CPU result = 3066 Krnl Result = 3066  
-      Result Match: i = 1023 CPU result = 3069 Krnl Result = 3069  
-      INFO: [SDx-EM 22] [Wall clock time: 10:42, Emulation time: 0.010001 ms]
-      TEST PASSED  
+      [sdaccel@localhost vadd]$ make check TARGETS=hw_emu DEVICES=xilinx_u200_xdma_201820_2
+      cp -rf ./xclbin/xilinx_u200_xdma_201820_2/emconfig.json .
+      XCL_EMULATION_MODE=hw_emu ./host
+      Found Platform
+      Platform Name: Xilinx
+      XCLBIN File Name: vadd
+      INFO: Importing xclbin/vadd.hw_emu.xilinx_u200_xdma_201820_2.xclbin
+      Loading: 'xclbin/vadd.hw_emu.xilinx_u200_xdma_201820_2.xclbin'
+      INFO: [SDx-EM 01] Hardware emulation runs simulation underneath. Using a large data set will result in long simulation times. It is recommended that a small dataset is used for faster execution. This flow does not use cycle accurate models and hence the performance data generated is approximate.
+      TEST PASSED
+      INFO: [SDx-EM 22] [Wall clock time: 00:10, Emulation time: 0.109454 ms] Data transfer between kernel(s) and global memory(s)
+      vadd_1:m_axi_gmem          RD = 32.000 KB              WR = 16.000 KB       
+
+      sdx_analyze profile -i sdaccel_profile_summary.csv -f html
+      INFO: Tool Version : 2018.2
+      Running SDx Rule Check Server on port:40213
+      INFO: Done writing sdaccel_profile_summary.html
      ```
 
   4. To view the profile summary and timeline trace, run the following commands to convert them for the SDx IDE to read and view the updated information below:  
@@ -257,18 +237,18 @@ Now that you understand parts of the makefile construction, it is time to compil
       sdx_analyze trace sdaccel_timeline_trace.csv  
      ```
      For the Profile Summary, you should see something similar to the following figure.  
-     ![](./images/sdx_makefile_hw_emulation_summary.png)    
+     ![](./images/lab2-hw_emu_profile.PNG)    
 </details>
 
 <details>
 <summary><strong>Step 5: Running System Run</strong></summary>
 
   1. To compile for a System Run, run the following command:  
-     `make check TARGETS=hw DEVICES=xilinx_kcu1500_dynamic_5_0`  
+     `make all TARGETS=hw DEVICES=xilinx_u200_xdma_201820_2`  
      >**:pushpin: NOTE:** Building for System could take a long time depending on computer resources.  
 
   2. Once the build is complete, prepare the board installation by using the following command:  
-     `xbinst --platform xilinx_kcu1500_dynamic_5_0 -z -d `  
+     `xbinst --platform xilinx_u200_xdma_201820_2 -z -d . `  
      Where:  
      * `--platform` is the platform to be used by the design.  
      * `-z` archives the board installation files for deployment.  
@@ -279,11 +259,8 @@ Now that you understand parts of the makefile construction, it is time to compil
   4. Run setup.sh to prepare the runtime environment.  
      >**:pushpin: NOTE:** Running setup.sh requires elevated permissions.  
 
-  5. With the System Run completed, you can re-run this in emulation if desired. Re-run the following command:  
-     `make check TARGETS=hw_emu DEVICES=xilinx_kcu1500_dynamic_5_0`  
-     >**:pushpin: NOTE:** Running this command with the `TARGET` set to `hw` results in a runtime error on locating a platform.  
-     As in the earlier step, the following reports are generated: profile summary, timeline trace, and system estimates.  
-Notes from Joyce: I am not quite sure the purpose of this step. Why hardware emulation is executed here in the hardware run step? 
+  5. With the System Run completed, you can re-run the following command:  
+     `make check TARGETS=hw DEVICES=xilinx_u200_xdma_201820_2`  
 
 
   6. Use the following commands to convert the profile summary and timeline trace into files that SDx can read:
