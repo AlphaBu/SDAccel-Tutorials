@@ -7,7 +7,7 @@
   </tr>
   <tr>
      <td align="center">Introduction</td>
-     <td align="center"><a href="lab-1-introduction-to-the-sadccel-developmentenvironment.md">Lab 1: Introduction to the SDAccel Development Environment</a></td>
+     <td align="center"><a href="lab-1-introduction-to-the-sdaccel-developmentenvironment.md">Lab 1: Introduction to the SDAccel Development Environment</a></td>
      <td align="center"><a href="lab-2-introduction-to-the-sdaccel-makefile.md">Lab 2: Introduction to the SDAccel Makefile</a></td>
    </tr>
 </table>
