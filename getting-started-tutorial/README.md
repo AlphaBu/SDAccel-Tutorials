@@ -21,7 +21,7 @@ This tutorial walks you through the steps of building a basic OpenCL based desig
 This tutorial is based on the Xilinx SDAccel™ Github Examples, specifically the Vector Addition example. More information related to the Github examples can be found in the  SDAccel Environment Profiling and Optimization Guide ([UG1207](https://www.xilinx.com/cgi-bin/docs/rdoc?v=2018.2;d=ug1207-sdaccel-optimization-guide.pdf)).
 
 ### Related information
- - <a href="lab-1-introduction-to-the-sadccel-developmentenvironment.md">Lab 1: Introduction to the SDAccel Development Environment</a>
+ - <a href="lab-1-introduction-to-the-sdaccel-developmentenvironment.md">Lab 1: Introduction to the SDAccel Development Environment</a>
  - <a href="lab-2-introduction-to-the-sdaccel-makefile.md">Lab 2: Introduction to the SDAccel Makefile</a>
 
 <hr/>
