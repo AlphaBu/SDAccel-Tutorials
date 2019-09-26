@@ -161,7 +161,7 @@ int main(int argc, char* argv[])
         }
 
        printf("CL_DEVICE_NAME %s\n", cl_device_name);
-        if(strcmp(cl_device_name, target_device_name) == 0) {
+        if(strstr(target_device_name, cl_device_name) != NULL) {
             device_id = devices[i];
             device_found = 1;
             printf("Selected %s as the target device\n", cl_device_name);
